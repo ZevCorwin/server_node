@@ -34,6 +34,10 @@ jobs:
             docker tag my-node-app $DOCKERHUB_USERNAME/my-node-app:latest
             docker push $DOCKERHUB_USERNAME/my-node-app:latest
 
+      - run:
+          name: Run Tests
+          command: echo "Tests are running... (No actual tests defined)"
+
 
 workflows:
   version: 2
