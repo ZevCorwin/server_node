@@ -4,16 +4,35 @@ executors:
   docker-executor:
     docker:
       - image: circleci/node:16
+        auth:
+          username: $tangkhanhdang
+          password: $aimabiettroi
+      - image: docker:20.10
+        environment:
+          DOCKER_DRIVER: overlay2
 
 jobs:
   build:
-    executor: docker-executor
+    docker:
+      - image: circleci/node:16 # Base image for Node.js
+      - image: docker:20.10 # Docker image for building
+        auth:
+          username: $tangkhanhdang
+          password: $aimabiettroi
     steps:
-      - checkout # Lấy mã nguồn
+      - setup_remote_docker:
+          version: 20.10.7
+      - checkout # Pull code
 
       - run:
           name: Install Dependencies
           command: npm install
+
+      - run:
+          name: Debug Docker
+          command: |
+            docker version
+            docker info
 
       - run:
           name: Run Tests
@@ -23,10 +42,6 @@ jobs:
           name: Build Docker Image
           command: docker build -t my-node-app .
 
-      - run:
-          name: Run Application
-          command: docker run -p 3000:3000 my-node-app
-        
       - run:
           name: Push Docker Image to Docker Hub
           command: |
