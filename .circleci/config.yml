@@ -35,9 +35,9 @@ jobs:
       - run:
           name: Push Docker Image to Docker Hub
           command: |
-            echo $aimabiettroi | docker login -u $tangkhanhdang --password-stdin
-            docker tag my-node-app $tangkhanhdang/my-node-app:latest
-            docker push $tangkhanhdang/my-node-app:latest
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker tag my-node-app $DOCKER_USERNAME/my-node-app:latest
+            docker push $DOCKER_USERNAME/my-node-app:latest
 
 workflows:
   version: 2
